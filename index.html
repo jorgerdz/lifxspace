@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" >
+  <head>
+    <title>lifx.space</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    <link rel="stylesheet" href="./bower_components/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="assets/app.css"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  </head>
+
+  <body ng-app="starterApp" layout="column" ng-controller="LifxController">
+
+    <md-toolbar layout="row">
+      <md-button class="menu" hide-gt-sm ng-click="toggleList()" aria-label="Show Lights">
+        <i class="fa fa-bars"></i>
+      </md-button>
+      <h1>LIFX Space</h1>
+      <md-button class="menu" ng-click="showDialog()" aria-label="Show Settings">
+        <i class="fa fa-cog"></i>
+      </md-button>
+    </md-toolbar>
+
+    <div flex layout="row">
+        <md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z2" md-component-id="left">
+          <md-list>
+            <md-item ng-repeat="it in lights">
+                <md-button ng-click="selectLight(it)" ng-class="{'selected' : it === selected }">
+                  <i class="fa fa-circle fa-4x" ng-show="it === selected"></i>
+                  <i class="fa fa-circle-o fa-4x" ng-hide="it === selected"></i>
+                  {{it.label}}
+                </md-button>
+            </md-item>
+          </md-list>
+        </md-sidenav>
+
+        <md-content flex id="content">
+          <h2>{{selected.label}}</h2>
+
+          <md-button ng-click="turnOn()" class="md-fab" aria-label="FAB">
+            <i class="fa fa-toggle-on"></i>
+            <md-tooltip>
+              On
+            </md-tooltip>
+          </md-button>
+          <md-button class="md-fab" ng-click="turnOff()" aria-label="FAB">
+            <i class="fa fa-toggle-off"></i>
+            <md-tooltip>
+              Off
+            </md-tooltip>
+          </md-button>
+          <md-button class="md-fab" ng-click="setRandomColor()" aria-label="FAB">
+            <i class="fa fa-random"></i>
+            <md-tooltip>
+              Random
+            </md-tooltip>
+          </md-button>
+    <h3>
+        HSB
+    </h3>
+    <div layout>
+      <div flex="10" layout layout-align="center center">
+        <span class="md-body-1">Hue</span>
+      </div>
+      <md-slider flex min="0" max="360" step="20" ng-model="color.hue" aria-label="hue" id="green-slider" class>
+      </md-slider>
+      <div flex="20" layout layout-align="center center">
+        <input type="number" ng-model="color.hue" aria-label="red" aria-controls="blue-slider">
+      </div>
+    </div>
+    <div layout>
+      <div flex="10" layout layout-align="center center">
+        <span class="md-body-1">Saturation</span>
+      </div>
+      <md-slider flex ng-model="color.saturation" min="0" max="1" step="0.1" aria-label="green" id="red-slider" class="md-accent">
+      </md-slider>
+      <div flex="20" layout layout-align="center center">
+        <input type="number" ng-model="color.saturation" aria-label="green" aria-controls="black-slider">
+      </div>
+    </div>
+    <div layout>
+      <div flex="10" layout layout-align="center center">
+        <span class="md-body-1">Brightness</span>
+      </div>
+      <md-slider flex ng-model="color.brightness" min="0" max="1" step="0.1" aria-label="blue" id="blue-slider" class="md-primary">
+      </md-slider>
+      <div flex="20" layout layout-align="center center">
+        <input type="number" ng-model="color.brightness" aria-label="blue" aria-controls="blue-slider">
+      </div>
+    </div>
+<!--     <div layout>
+      <div flex="10" layout layout-align="center center">
+        <span class="md-body-1">Kelvin</span>
+      </div>
+      <md-slider flex ng-model="color.kelvin" min="2500" max="9000" step="100" aria-label="green" id="green-slider" class="md-primary">
+      </md-slider>
+      <div flex="20" layout layout-align="center center">
+        <input type="number" ng-model="color.kelvin" aria-label="green" aria-controls="green-slider">
+      </div>
+    </div> -->
+    <h3>
+        Scenes
+    </h3>
+    <md-grid-list ng-click="setScene(scene)" ng-repeat="scene in scenes"  md-cols-gt-md="5" ng-class="{'border-selected' : scene.selected}"
+            md-row-height-gt-md="1:1" md-row-height="2:2"
+            md-gutter="12px" md-gutter-gt-sm="8px">
+        <md-grid-tile ng-repeat="color in scene.color" style="background:#{{color}}"
+            md-rowspan="1" md-colspan="1" md-colspan-sm="1.2">
+        </md-grid-tile>
+    </md-grid-list>
+    </md-content>
+    </div>
+
+    <script src="./bower_components/angular/angular.js"></script>
+    <script src="./bower_components/angular-animate/angular-animate.js"></script>
+    <script src="./bower_components/angular-aria/angular-aria.js"></script>
+    <script src="./bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+    <script type="text/javascript" src="./bower_components/angular-material/angular-material.js"></script>
+
+    <script src="./src/users/Lifx.js"></script>
+    <script src="./src/users/LifxController.js"></script>
+    <script src="./src/users/LifxService.js"></script>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular-cookies.min.js"></script>
+
+    <script type="text/javascript">
+
+          angular
+              .module('starterApp', ['ngMaterial', 'lifx'])
+              .config(function($mdThemingProvider){
+
+                      $mdThemingProvider.theme('default')
+                          .primaryPalette('indigo')
+                          .accentPalette('light-blue');
+
+              });
+
+    </script>
+
+  </body>
+</html>
