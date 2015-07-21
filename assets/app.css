@@ -148,3 +148,15 @@ md-grid-list:hover{
 .border-selected{
   border-color: black;
 }
+
+.angular-color-picker, .angular-color-picker > ._variations {
+  border: 0px;
+}
+
+.angular-color-picker > ._hues > ._cursor {
+  border-right-color : transparent;
+}
+
+#picker {
+  margin-bottom: 0;
+}

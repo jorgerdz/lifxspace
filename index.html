@@ -13,6 +13,8 @@
 
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
     <link rel="stylesheet" href="./bower_components/angular-material/angular-material.css"/>
+    <link rel="stylesheet" href="./bower_components/angular-color-picker/angular-color-picker.css">
+
     <link rel="stylesheet" href="assets/app.css"/>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
@@ -67,6 +69,13 @@
               Random
             </md-tooltip>
           </md-button>
+          <h3 id="picker">
+              Color Picker
+          </h3>
+          <md-content layout>
+            <color-picker ng-model="color.rgb">
+            </color-picker>
+          </md-content>
     <h3>
         HSB
     </h3>
@@ -74,30 +83,30 @@
       <div flex="10" layout layout-align="center center">
         <span class="md-body-1">Hue</span>
       </div>
-      <md-slider flex min="0" max="360" step="20" ng-model="color.hue" aria-label="hue" id="green-slider" class>
+      <md-slider flex min="0" max="360" step="20" ng-model="color.hue" aria-label="hue" ng-change="HSBK()" id="green-slider" class>
       </md-slider>
       <div flex="20" layout layout-align="center center">
-        <input type="number" ng-model="color.hue" aria-label="red" aria-controls="blue-slider">
+        <input type="number" ng-model="color.hue" aria-label="red" aria-controls="blue-slider" ng-change="HSBK()">
       </div>
     </div>
     <div layout>
       <div flex="10" layout layout-align="center center">
         <span class="md-body-1">Saturation</span>
       </div>
-      <md-slider flex ng-model="color.saturation" min="0" max="1" step="0.1" aria-label="green" id="red-slider" class="md-accent">
+      <md-slider flex ng-model="color.saturation" min="0" max="1" step="0.1" aria-label="green" id="red-slider" class="md-accent" ng-change="HSBK()">
       </md-slider>
       <div flex="20" layout layout-align="center center">
-        <input type="number" ng-model="color.saturation" aria-label="green" aria-controls="black-slider">
+        <input type="number" ng-model="color.saturation" aria-label="green" aria-controls="black-slider" ng-change="HSBK()">
       </div>
     </div>
     <div layout>
       <div flex="10" layout layout-align="center center">
         <span class="md-body-1">Brightness</span>
       </div>
-      <md-slider flex ng-model="color.brightness" min="0" max="1" step="0.1" aria-label="blue" id="blue-slider" class="md-primary">
+      <md-slider flex ng-model="color.brightness" min="0" max="1" step="0.1" aria-label="blue" id="blue-slider" class="md-primary" ng-change="HSBK()">
       </md-slider>
       <div flex="20" layout layout-align="center center">
-        <input type="number" ng-model="color.brightness" aria-label="blue" aria-controls="blue-slider">
+        <input type="number" ng-model="color.brightness" aria-label="blue" aria-controls="blue-slider" ng-change="HSBK()">
       </div>
     </div>
 <!--     <div layout>
@@ -134,11 +143,12 @@
     <script src="./src/lifx/LifxService.js"></script>
 
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.0.1/angular-cookies.min.js"></script>
+    <script src="./bower_components/angular-color-picker/angular-color-picker.js"></script>
 
     <script type="text/javascript">
 
           angular
-              .module('starterApp', ['ngMaterial', 'lifx'])
+              .module('starterApp', ['ngMaterial', 'lifx', 'mp.colorPicker'])
               .config(function($mdThemingProvider){
 
                       $mdThemingProvider.theme('default')

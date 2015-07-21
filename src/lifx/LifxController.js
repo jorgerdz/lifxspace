@@ -3,14 +3,16 @@
   angular
        .module('lifx', ['LocalStorageModule'])
        .controller('LifxController', [
-          '$scope', 'lifxService', '$mdSidenav', '$mdDialog', '$log', '$q', '$interval', 'localStorageService',
+          '$scope', 'lifxService', '$mdSidenav', '$mdDialog', '$log', '$q', '$interval', 'localStorageService', '$timeout',
           LifxController
        ]);
 
-  function LifxController($scope, lifxService, $mdSidenav, $mdDialog, $log, $q, $interval, localStorageService) {
+  function LifxController($scope, lifxService, $mdSidenav, $mdDialog, $log, $q, $interval, localStorageService, $timeout) {
+
 
     var sceneInterval,
-        intervalHelper = 0;
+        intervalHelper = 0,
+        initializing = true;
 
     $scope.scenes = [
               {color: ['3F7CAC', '95AFBA', 'BDC4A7', 'D5E1A3', 'E2F89C']},
@@ -60,6 +62,7 @@
          },
          controller: DialogController
       });
+     }
 
     $scope.showHelp = function($event) {
        var parentEl = angular.element(document.body);
@@ -176,10 +179,22 @@
       $scope.showDialog();
     }
 
-    $scope.$watchGroup(['color.hue', 'color.saturation', 'color.brightness', 'color.kelvin'], function(){
-      if($scope.color) {
-        $scope.stopScene();
-        lifxService.setHSBK($scope.color);
+    $scope.HSBK = function(){
+        if($scope.color) {
+          $scope.stopScene();
+          lifxService.setHSBK($scope.color);
+        }
+    };
+
+    $scope.$watch('color.rgb', function(){
+      if (initializing) {
+        $timeout(function() { initializing = false; });
+      }else{
+        if($scope.color && $scope.color.rgb) {
+          console.log($scope.color.rgb)
+          $scope.stopScene();
+          lifxService.setHex($scope.color.rgb);
+        }
       }
     });
 

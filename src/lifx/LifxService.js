@@ -47,6 +47,11 @@
           return data.data;
         });
       },
+      setHex : function(hex) {
+        return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/color', {color : hex}, opt).then(function(data){
+          return data.data;
+        });
+      },
       setRGB : function(rgb) {
         var color = 'rgb:'+rgb.red+','+rgb.green+','+rgb.blue;
         return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/color', {color : color}, opt).then(function(data){
