@@ -1,0 +1,37 @@
+{
+  "name": "angular-color-picker",
+  "main": [
+    "angular-color-picker.js",
+    "angular-color-picker.css"
+  ],
+  "homepage": "https://github.com/myplanet/angular-color-picker",
+  "description": "Lightweight color picker for Angular",
+  "authors": [
+    "Ates Goral <ates.g@myplanet.com>"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "angular",
+    "color",
+    "hsv"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*"
+  ],
+  "version": "1.0.8",
+  "_release": "1.0.8",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.8",
+    "commit": "2a124489cbaab428674ca9fdb1e2fc0fbb9b99d1"
+  },
+  "_source": "git://github.com/myplanet/angular-color-picker.git",
+  "_target": "~1.0.8",
+  "_originalSource": "angular-color-picker",
+  "_direct": true
+}

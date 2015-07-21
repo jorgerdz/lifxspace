@@ -1,0 +1,26 @@
+{
+  "name": "angular-color-picker",
+  "main": [
+    "angular-color-picker.js",
+    "angular-color-picker.css"
+  ],
+  "homepage": "https://github.com/myplanet/angular-color-picker",
+  "description": "Lightweight color picker for Angular",
+  "authors": [
+    "Ates Goral <ates.g@myplanet.com>"
+  ],
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "angular",
+    "color",
+    "hsv"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*"
+  ]
+}
