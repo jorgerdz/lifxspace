@@ -21,7 +21,7 @@
               {color: ['33CBE5', '3AA2FF', '4BFFEF', '36EAAA', '3CFE82']}
             ];
 
-    $scope.showDialog = function($event) {
+    $scope.showOptions = function($event) {
        var parentEl = angular.element(document.body);
 
        var html = '<md-dialog aria-label="List dialog">' +
@@ -61,23 +61,51 @@
          controller: DialogController
       });
 
-      function DialogController(scope, $mdDialog, token, lifxService, localStorageService) {
-        scope.token = token;
-        scope.closeDialog = function() {
-          $mdDialog.hide();
-          listLights();
-        };
-        scope.verify = function(){
-          lifxService.verify(scope.token).success(function(data){
-            scope.verified = true;
-          }).error(function(err){
-            scope.error = true;
-          });
-        };
-        scope.setToken = function(token){
-          localStorageService.set('token', token);
-        };
-      }
+    $scope.showHelp = function($event) {
+       var parentEl = angular.element(document.body);
+
+       var html = '<md-dialog aria-label="Help">' +
+               '  <md-content>'+
+               '    <md-list>'+
+               '      <md-item>'+
+               '       <h2>lifx.space is built by <a href="http://twitter.com/jorgerdz">Jorge Rodríguez</a>.</h2> <p>You can contact me <a href="mailto:mail@jorgerdz.com">here</a> and you can buy me a beer <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=XXLESFVMHJJ3N&lc=MX&item_name=lifx%2espace&currency_code=MXN&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted">here</a> :)</p>' +
+               '      </md-item>'+
+               '    </md-list>'+
+               '  </md-content>' +
+               '  <div class="md-actions">' +
+               '    <md-button aria-label="Cloase dialog" class="md-raised md-warn" ng-click="closeDialog()">' +
+               '      Close' +
+               '    </md-button>' +
+               '  </div>' +
+               '</md-dialog>';
+       var token = '';
+       $mdDialog.show({
+         parent: parentEl,
+         targetEvent: $event,
+         template: html,
+         locals: {
+           token : token
+         },
+         controller: DialogController
+      });
+    }
+
+    function DialogController(scope, $mdDialog, token, lifxService, localStorageService) {
+      scope.token = token;
+      scope.closeDialog = function() {
+        $mdDialog.hide();
+        listLights();
+      };
+      scope.verify = function(){
+        lifxService.verify(scope.token).success(function(data){
+          scope.verified = true;
+        }).error(function(err){
+          scope.error = true;
+        });
+      };
+      scope.setToken = function(token){
+        localStorageService.set('token', token);
+      };
     }
 
     $scope.turnOn = function(){
@@ -140,6 +168,7 @@
               lifxService.setSelector($scope.selected);
             });
     }
+
 
     if(localStorageService.get('token')){
       listLights();
