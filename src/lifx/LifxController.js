@@ -176,7 +176,7 @@
     if(localStorageService.get('token')){
       listLights();
     } else {
-      $scope.showDialog();
+      $scope.showOptions();
     }
 
     $scope.HSBK = function(){
