@@ -60,6 +60,7 @@
          locals: {
            token : token
          },
+         clickOutsideToClose : false,
          controller: DialogController
       });
      }

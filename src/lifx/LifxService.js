@@ -75,7 +75,7 @@
             }
           }).success(function(data){
               localStorageService.set('token', token);
-              var opt = {
+              opt = {
                 headers : {
                     Authorization: "Basic " + btoa(localStorageService.get('token') + ":" + "")
                   }
