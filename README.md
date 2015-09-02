@@ -1,6 +1,8 @@
 # lifxspace
 LIFX web app for interacting with the Cloud API. It is built using Angular, Angular Material and it is hosted on github.io.
 
+Accessible via [lifx.space](http://lifx.space)
+
 ##Features
 - Interaction with single bulbs
 - Set random colors
