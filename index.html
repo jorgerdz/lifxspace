@@ -152,14 +152,44 @@
 
     <script type="text/javascript">
 
+          var themes = [
+            'red',
+            'pink',
+            'purple',
+            'deep-purple',
+            'indigo',
+            'blue',
+            'light-blue',
+            'cyan',
+            'teal',
+            'green',
+            'light-green',
+            'lime',
+            'yellow',
+            'amber',
+            'orange',
+            'deep-orange',
+            'brown',
+            'grey',
+            'blue-grey'
+          ];
+
           angular
               .module('starterApp', ['ngMaterial', 'lifx', 'mp.colorPicker'])
               .config(function($mdThemingProvider){
+                var paletteColor = Math.floor((Math.random() * 19));
+                var accentColor = Math.floor((Math.random() * 19));
+                if(paletteColor == accentColor){
+                  if(paletteColor == 19)
+                    accentColor--;
+                  else{
+                    accentColor++;
+                  };
+                }
 
-                      $mdThemingProvider.theme('default')
-                          .primaryPalette('indigo')
-                          .accentPalette('light-blue');
-
+                $mdThemingProvider.theme('default')
+                          .primaryPalette(themes[paletteColor])
+                          .accentPalette(themes[accentColor]);
               });
 
     </script>
