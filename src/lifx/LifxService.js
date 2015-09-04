@@ -18,18 +18,43 @@
       return '#'+Math.floor(Math.random()*16777215).toString(16);
     }
 
+    function uniq(a) {
+      return a.sort().filter(function(item, pos, ary) {
+          return !pos || item != ary[pos - 1];
+      });
+    }
+
     // Promise-based API
     return {
       setSelector : function(slktr){
         if(slktr.label == 'All')
           selector = 'all';
-        else
+        else if(slktr.type == 'bulb')
           selector = 'label:'+slktr.label;
+        else
+          selector = 'group:'+slktr.label;
       },
       listLights : function() {
         return $http.get('https://api.lifx.com/v1beta1/lights/'+selector, opt).then(function(data){
-          data.data.unshift({label : 'All', selected : true});
-          return data.data;
+          var bulbs = data.data,
+              allGroups = [],
+              filteredGroups = [];
+
+          bulbs.forEach(function(data){
+            data.type = 'bulb';
+            allGroups.push(data.group.name);
+          });
+
+          allGroups = uniq(allGroups);
+
+          allGroups.forEach(function(data){
+            filteredGroups.push({label : data, type : 'group'});
+          });
+
+          bulbs.unshift({label : 'All', selected : true});
+
+          var body = { groups : filteredGroups, lights : bulbs };
+          return body;
         });
       },
       on : function() {

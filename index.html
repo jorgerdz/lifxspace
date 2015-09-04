@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="./bower_components/angular-color-picker/angular-color-picker.css">
 
     <link rel="stylesheet" href="assets/app.css"/>
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
   </head>
 
@@ -38,14 +38,32 @@
     <div flex layout="row">
         <md-sidenav md-is-locked-open="$mdMedia('gt-sm')" class="md-whiteframe-z2" md-component-id="left">
           <md-list>
+            <md-item>
+              <span class="label">GROUPS</span>
+            </md-item>
+            <md-item ng-repeat="it in groups">
+                <md-button ng-click="select(it)" ng-class="{'md-accent' : it === selected }">
+                  <span class="fa-stack fa-2x">
+                    <i class="fa fa-sticky-note fa-stack-2x"></i>
+                    <i class="fa fa-lightbulb-o fa-inverse fa-stack-1x"></i>
+                  </span>
+
+                  {{it.label}}
+                </md-button>
+            </md-item>
+            <hr>
+            <md-item>
+              <span class="label">BULBS</span>
+            </md-item>
+            
             <md-item ng-repeat="it in lights">
-                <md-button ng-click="selectLight(it)" ng-class="{'selected' : it === selected }">
-                  <i class="fa fa-circle fa-4x" ng-show="it === selected"></i>
-                  <i class="fa fa-circle-o fa-4x" ng-hide="it === selected"></i>
+                <md-button ng-click="select(it)" ng-class="{'md-accent' : it === selected }">
+                  <i class="fa fa-lightbulb-o fa-3x bulb"></i>
                   {{it.label}}
                 </md-button>
             </md-item>
           </md-list>
+
         </md-sidenav>
 
         <md-content flex id="content">

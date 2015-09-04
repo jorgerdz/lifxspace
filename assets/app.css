@@ -158,7 +158,19 @@ md-grid-list:hover{
 }
 
 #picker {
-  margin-bottom: 0;
+  margin: 4% 0 0 0;
+}
+
+.bulb {
+  margin-left: 4%;
+}
+
+.label {
+  margin: 2%;
+}
+
+.bulbs-tag {
+  margin-left: 3%;
 }
 
 hr {

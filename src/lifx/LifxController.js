@@ -124,7 +124,17 @@
 
     $scope.setRandomColor = function() {
       $scope.stopScene();
-      lifxService.setRandomLights();
+      if($scope.selected.type == 'bulb')
+        lifxService.setRandomLights();
+      else {
+        $scope.lights.forEach(function(data){
+          if(data.group && data.group.name == $scope.selected.label){
+            lifxService.setSelector(data);
+            lifxService.setRandomLights();
+          }
+        });
+        lifxService.setSelector($scope.selected)        
+      }
     };
 
     $scope.setScene = function(scene){
@@ -162,12 +172,14 @@
       lifxService
             .listLights()
             .then( function( data ) {
+              console.log(data)
+              $scope.lights = data.lights;
+              $scope.groups = data.groups;
               $scope.color = {};
-              $scope.color.brightness = data[1].brightness;
-              $scope.color.hue = data[1].color.hue;
-              $scope.color.saturation = data[1].color.saturation;
-              $scope.color.kelvin = data[1].color.kelvin;
-              $scope.lights = data;
+              $scope.color.brightness = $scope.lights[1].brightness;
+              $scope.color.hue = $scope.lights[1].color.hue;
+              $scope.color.saturation = $scope.lights[1].color.saturation;
+              $scope.color.kelvin = $scope.lights[1].color.kelvin;
               $scope.selected = $scope.lights[1];
               lifxService.setSelector($scope.selected);
             });
@@ -192,15 +204,14 @@
         $timeout(function() { initializing = false; });
       }else{
         if($scope.color && $scope.color.rgb) {
-          console.log($scope.color.rgb)
           $scope.stopScene();
           lifxService.setHex($scope.color.rgb);
         }
       }
     });
 
-    $scope.selectLight  = function( light ) {
-      $scope.selected = light;
+    $scope.select  = function( which ) {
+      $scope.selected = which;
       lifxService.setSelector($scope.selected);
     }
   }
