@@ -12,12 +12,6 @@
         }
       }
 
-    var selector = 'all';
-
-    function getRandomColor(){
-      return '#'+Math.floor(Math.random()*16777215).toString(16);
-    }
-
     function uniq(a) {
       return a.sort().filter(function(item, pos, ary) {
           return !pos || item != ary[pos - 1];
@@ -26,22 +20,14 @@
 
     // Promise-based API
     return {
-      setSelector : function(slktr){
-        if(slktr.label == 'All')
-          selector = 'all';
-        else if(slktr.type == 'bulb')
-          selector = 'label:'+slktr.label;
-        else
-          selector = 'group:'+slktr.label;
-      },
       listLights : function() {
-        return $http.get('https://api.lifx.com/v1beta1/lights/'+selector, opt).then(function(data){
+        return $http.get('https://api.lifx.com/v1/lights/all', opt).then(function(data){
           var bulbs = data.data,
               allGroups = [],
               filteredGroups = [];
 
           bulbs.forEach(function(data){
-            data.type = 'bulb';
+            data.type = 'label';
             allGroups.push(data.group.name);
           });
 
@@ -57,44 +43,13 @@
           return body;
         });
       },
-      on : function() {
-        return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/power', {state : 'on'}, opt).then(function(data){
-          return data.data;
-        });
-      },
-      off : function() {
-        return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/power', {state : 'off'}, opt).then(function(data){
-          return data.data;
-        });
-      },
-      setRandomLights : function() {
-        return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/color', {color : getRandomColor()}, opt).then(function(data){
-          return data.data;
-        });
-      },
-      setHex : function(hex) {
-        return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/color', {color : hex}, opt).then(function(data){
-          return data.data;
-        });
-      },
-      setRGB : function(rgb) {
-        var color = 'rgb:'+rgb.red+','+rgb.green+','+rgb.blue;
-        return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/color', {color : color}, opt).then(function(data){
-          return data.data;
-        });
-      },
-      setHSBK : function(hsbk) {
-        return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/color', {color :'hue:'+hsbk.hue+' saturation:'+hsbk.saturation+' brightness:'+hsbk.brightness}, opt).then(function(data){
-          return data.data;
-        });
-      },
-      setColorForScene : function(color) {
-        return $http.put('https://api.lifx.com/v1beta1/lights/'+selector+'/color', {color : color, duration : 9}, opt).then(function(data){
+      setState : function(statesArray) {
+        return $http.put('https://api.lifx.com/v1/lights/states', {states : statesArray}, opt).then(function(data){
           return data.data;
         });
       },
       verify : function(token) {
-        return $http.get('https://api.lifx.com/v1beta1/lights/'+selector+'', {
+        return $http.get('https://api.lifx.com/v1/lights/states', {
           headers : {
               Authorization: "Basic " + btoa(token + ":" + token)
             }
@@ -109,7 +64,7 @@
             }).error(function(data){
               return 500;
             });
-      }     
+      }
     };
   }
 
