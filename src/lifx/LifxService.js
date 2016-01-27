@@ -49,7 +49,7 @@
             });
          },
          verify : function(token) {
-            return $http.get('https://api.lifx.com/v1/lights/states', {
+            return $http.get('https://api.lifx.com/v1/lights/all', {
                headers : {
                   Authorization: "Basic " + btoa(token + ":" + token)
                }
