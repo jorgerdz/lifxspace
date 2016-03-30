@@ -20,7 +20,7 @@
 
   </head>
 
-  <body ng-app="starterApp" layout="column" ng-controller="LifxController">
+  <body ng-app="starterApp" ng-cloak layout="column" ng-controller="LifxController">
 
     <md-toolbar layout="row">
       <md-button class="menu" hide-gt-sm ng-click="toggleList()" aria-label="Show Lights">
@@ -55,7 +55,7 @@
             <md-item>
               <span class="label">BULBS</span>
             </md-item>
-            
+
             <md-item ng-repeat="it in lights">
                 <md-button ng-click="select(it)" ng-class="{'md-accent' : it === selected }">
                   <i class="fa fa-lightbulb-o fa-3x bulb"></i>
